@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Dashboard | Smart Assignment Portal</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      display: flex;
+      min-height: 100vh;
+      margin: 0;
+      background-color: #f2e6d4;
+    }
+
+    .sidebar {
+      width: 240px;
+      background-color: #254e70;
+      color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 20px;
+    }
+
+    .sidebar a {
+      color: #f2e6d4;
+      text-decoration: none;
+      margin: 10px 0;
+      display: block;
+      transition: 0.3s;
+    }
+
+    .sidebar a:hover {
+      color: white;
+      text-decoration: underline;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .main-content h1 {
+      color: #254e70;
+      margin-bottom: 20px;
+    }
+
+    .assignment-form {
+      background: white;
+      border: 2px solid #c48a6a;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+
+    .assignment-form input,
+    .assignment-form textarea,
+    .assignment-form select,
+    .assignment-form button {
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .assignment-form button {
+      background-color: #254e70;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .assignment-form button:hover {
+      background-color: #1b2b52;
+    }
+
+    .assignments-table table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .assignments-table th, .assignments-table td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+
+    .assignments-table th {
+      background-color: #dce3ea;
+    }
+
+    .action-btns button {
+      margin-right: 5px;
+      padding: 5px 10px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .delete { background: #b84141; color: white; }
+    .lock { background: #c48a6a; color: white; }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <h2>Teacher Panel</h2>
+    <a href="#">Dashboard</a>
+    <a href="#">Create Assignment</a>
+    <a href="#">Manage Assignments</a>
+    <a href="#">Notifications</a>
+    <a href="#">Profile</a>
+    <a href="Landing.html">Log Out</a>
+  </aside>
+
+  <main class="main-content">
+    <h1>Welcome, Teacher!</h1>
+
+    <div class="assignment-form">
+      <h2>Create New Assignment</h2>
+      <input type="text" id="title" placeholder="Assignment Title" required>
+      <textarea id="description" rows="4" placeholder="Assignment Description" required></textarea>
+      <input type="date" id="deadline" required>
+      <input type="file" id="attachment">
+      <button onclick="addAssignment()">Post Assignment</button>
+    </div>
+
+    <div class="assignments-table">
+      <h2>Manage Assignments (<span id="assignmentCount">0</span>)</h2>
+      <input type="text" id="filterInput" placeholder="Filter by title...">
+      <select id="assignmentDropdown">
+        <option disabled selected>Select Assignment</option>
+      </select>
+      <table id="assignmentTable">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Deadline</th>
+            <th>File</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <script>
+    let assignments = [];
+
+    document.getElementById("filterInput").addEventListener("input", renderAssignments);
+
+    function addAssignment() {
+      const title = document.getElementById("title").value;
+      const description = document.getElementById("description").value;
+      const deadline = document.getElementById("deadline").value;
+      const attachment = document.getElementById("attachment").files[0];
+
+      if (title && description && deadline) {
+        const fileName = attachment ? `<a href="#" target="_blank">${attachment.name}</a>` : "None";
+        const newAssignment = {
+          title,
+          description,
+          deadline,
+          file: fileName,
+          status: "Active"
+        };
+
+        assignments.push(newAssignment);
+        renderAssignments();
+
+        document.getElementById("title").value = "";
+        document.getElementById("description").value = "";
+        document.getElementById("deadline").value = "";
+        document.getElementById("attachment").value = "";
+      } else {
+        alert("Please fill all fields.");
+      }
+    }
+
+    function renderAssignments() {
+      const tbody = document.querySelector("#assignmentTable tbody");
+      const count = document.getElementById("assignmentCount");
+      const dropdown = document.getElementById("assignmentDropdown");
+      const filterValue = document.getElementById("filterInput").value.toLowerCase();
+
+      tbody.innerHTML = "";
+      dropdown.innerHTML = '<option disabled selected>Select Assignment</option>';
+      count.textContent = assignments.length;
+
+      assignments.forEach((a, index) => {
+        if (!a.title.toLowerCase().includes(filterValue)) return;
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+          <td>${a.title}</td>
+          <td>${a.description}</td>
+          <td>${a.deadline}</td>
+          <td>${a.file}</td>
+          <td>${a.status}</td>
+          <td class="action-btns">
+            <button class="delete" onclick="deleteAssignment(${index})">Delete</button>
+            <button class="lock" onclick="toggleLock(${index})">${a.status === "Locked" ? "Unlock" : "Lock"}</button>
+          </td>
+        `;
+
+        tbody.appendChild(row);
+
+        const option = document.createElement("option");
+        option.text = a.title;
+        dropdown.add(option);
+      });
+    }
+
+    function deleteAssignment(index) {
+      assignments.splice(index, 1);
+      renderAssignments();
+    }
+
+    function toggleLock(index) {
+      assignments[index].status = assignments[index].status === "Locked" ? "Active" : "Locked";
+      renderAssignments();
+    }
+  </script>
+</body>
+</html>

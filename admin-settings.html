@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Platform Settings | Admin Panel</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .nav-buttons {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 100;
+    }
+
+    .nav-buttons button {
+      width: 40px;
+      height: 40px;
+      border: none;
+      border-radius: 50%;
+      background-color: #254e70;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .nav-buttons button:hover {
+      background-color: #1b2b52;
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Platform Settings</h1>
+    <p>Configure global settings for the assignment portal</p>
+  </header>
+
+  <section class="section">
+    <h2>Maintenance Mode</h2>
+    <div class="feature">
+      <label for="maintenanceToggle">Enable Maintenance Mode:</label>
+      <input type="checkbox" id="maintenanceToggle" />
+      <p>This will temporarily disable the platform for all users except admins.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>User Roles Management</h2>
+    <div class="feature">
+      <p>You can manage default permissions for each role:</p>
+      <ul>
+        <li><strong>Teacher:</strong> Upload assignments, view student submissions</li>
+        <li><strong>Student:</strong> Submit assignments, view due dates</li>
+        <li><strong>Admin:</strong> Full access to platform management</li>
+      </ul>
+      <p><a href="#">Modify Role Permissions</a></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Notification Preferences</h2>
+    <div class="feature">
+      <label for="emailNotifs">Enable Email Notifications:</label>
+      <input type="checkbox" id="emailNotifs" checked />
+      <p>Toggle email notifications for assignment updates and announcements.</p>
+    </div>
+  </section>
+
+  <div class="nav-buttons">
+    <button onclick="history.back()" title="Go Back">&#8592;</button>
+    <button onclick="history.forward()" title="Go Forward">&#8594;</button>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Assignment Portal. Admin Panel.</p>
+    <p>
+      <a href="Landing.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+    </p>
+  </footer>
+</body>
+</html>

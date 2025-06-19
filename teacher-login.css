@@ -1,0 +1,116 @@
+/* Color Palette */
+:root {
+  --navy: #0e1a3b;
+  --beige: #f2e6d4;
+  --rust: #c48a6a;
+  --steel: #254e70;
+  --pale-blue: #dce3ea;
+}
+
+body {
+  background-color: var(--beige);
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-container {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  border: 1px solid var(--rust);
+}
+
+h2 {
+  text-align: center;
+  color: var(--steel);
+  margin-bottom: 30px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 5px;
+  color: var(--navy);
+  font-weight: bold;
+}
+
+input[type="email"],
+input[type="password"] {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid var(--rust);
+  border-radius: 6px;
+  background: var(--pale-blue);
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  width: 100%;
+}
+
+#togglePassword {
+  position: absolute;
+  right: 10px;
+  top: 12px;
+  cursor: pointer;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
+.options a {
+  color: var(--steel);
+  text-decoration: none;
+}
+
+.options a:hover {
+  text-decoration: underline;
+}
+
+button {
+  padding: 12px;
+  background: var(--navy);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #1b2b52;
+}
+
+.bottom-links {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.bottom-links a {
+  margin: 0 10px;
+  color: var(--rust);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.bottom-links a:hover {
+  text-decoration: underline;
+}
